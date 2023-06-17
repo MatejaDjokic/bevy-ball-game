@@ -1,1 +1,1 @@
-# bevy-ball-game
+# Balls & Stars
