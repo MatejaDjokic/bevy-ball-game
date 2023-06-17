@@ -5,22 +5,28 @@ mod systems;
 
 use game::GamePlugin;
 use main_menu::MainMenuPlugin;
+
 use systems::*;
 
 use bevy::prelude::*;
 
 fn main() {
     App::new()
-        // BEVY PLUGINS
-        .add_plugins(DefaultPlugins)
-        // STATE
+        // Bevy Plugins
+        .add_plugins(DefaultPlugins.set(WindowPlugin {
+            primary_window: Some(Window {
+                title: "Balls & Stars".to_string(),
+                ..Default::default()
+            }),
+            ..Default::default()
+        }))
         .add_state::<AppState>()
-        // MY PLUGINS
+        // My Plugins
         .add_plugin(MainMenuPlugin)
         .add_plugin(GamePlugin)
-        // STARTUP SYSTEMS
+        // Startup Systems
         .add_startup_system(spawn_camera)
-        // SYSTEMS
+        // Systems
         .add_system(transition_to_game_state)
         .add_system(transition_to_main_menu_state)
         .add_system(exit_game)
@@ -28,7 +34,7 @@ fn main() {
         .run();
 }
 
-#[derive(States, Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
+#[derive(States, Debug, Clone, Copy, Eq, PartialEq, Hash, Default)]
 pub enum AppState {
     #[default]
     MainMenu,
